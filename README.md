@@ -1,38 +1,39 @@
-# Despliegue de Aplicación Web con Contenedores (Proyecto Kiora)
+# Proyecto Kiora: Despliegue con Docker
 
-Este proyecto consiste en el despliegue manual de una aplicación full-stack (Frontend, Backend y Base de Datos) utilizando Docker. Se aplican conceptos de redes aisladas, persistencia de datos y construcción eficiente de imágenes mediante Multi-stage builds.
+Este proyecto consiste en el despliegue manual de una aplicación **Full-Stack** (Frontend, Backend y Base de Datos) utilizando contenedores Docker. Se aplican conceptos de redes aisladas, persistencia de datos y optimización de imágenes mediante **Multi-stage builds**.
 
-# Tecnologías Utilizadas
+---
 
-    Frontend: React (Vite) / Servido con Nginx (Proxy Inverso).
+## Tecnologías Utilizadas
 
-    Backend: Java 17 / Framework Spring Boot 3.x.
+| Componente | Tecnología | Rol |
+| :--- | :--- | :--- |
+| **Frontend** | React (Vite) | Interfaz de usuario servida por Nginx |
+| **Backend** | Java 17 (Spring Boot 3.x) | API REST y lógica de negocio |
+| **Base de Datos** | PostgreSQL 15 (Alpine) | Motor de base de datos relacional |
+| **Servidor Web** | Nginx | Servidor estático y **Proxy Inverso** |
+| **Infraestructura**| Docker | Contenedores y redes manuales |
 
-    Base de Datos: PostgreSQL 15 (Imagen Alpine).
+---
 
-    Infraestructura: Docker (Comandos manuales, sin orquestadores).
+## Instrucciones de Despliegue Paso a Paso
 
-# Instrucciones de Despliegue Paso a Paso
+Siga estos comandos en el orden exacto para levantar la solución completa desde cero.
 
-Siga estos comandos en el orden indicado para levantar la solución completa desde cero.
-1. Creación de Redes Aisladas
+### 1. Preparación de la Infraestructura
+Primero, creamos las redes aisladas y el volumen para la persistencia de datos:
 
-Se definen dos redes para segmentar el tráfico según los requisitos:
-Bash
-
+```bash
+# Creación de redes para segmentar el tráfico
 docker network create red-front-back
 docker network create red-back-bd
 
-2. Creación del Volumen de Persistencia
-
-Para asegurar que los datos de PostgreSQL no se pierdan al borrar el contenedor:
-Bash
-
+# Creación del volumen para la base de datos
 docker volume create vol-db-data
+2. Despliegue de la Base de Datos (PostgreSQL)
+Lanzamos el motor de base de datos en su red protegida:
 
-3. Despliegue de la Base de Datos (PostgreSQL)
 Bash
-
 docker run -d \
   --name db-container \
   --network red-back-bd \
@@ -41,53 +42,50 @@ docker run -d \
   -e POSTGRES_DB=pollos_adso \
   -v vol-db-data:/var/lib/postgresql/data \
   postgres:15-alpine
+3. Construcción y Ejecución del Backend
+Entramos a la carpeta del backend para construir la imagen con Multi-stage build y ejecutarla:
 
-4. Construcción y Ejecución del Backend (Spring Boot)
-
-El Dockerfile del backend utiliza Multi-stage building (Maven para construcción y Temurin JRE para ejecución).
 Bash
-
 cd back
 docker build -t mi-backend-img .
+
 docker run -d \
   --name back-container \
   --network red-back-bd \
   -p 9090:9090 \
   mi-backend-img
 
-# Conexión manual a la segunda red (Frontend <-> Backend)
+# Conectamos el backend a la red del frontend para permitir la comunicación
 docker network connect red-front-back back-container
 cd ..
+4. Construcción y Ejecución del Frontend
+Finalmente, construimos el frontend que incluye la configuración de Nginx como Proxy Inverso:
 
-5. Construcción y Ejecución del Frontend (React + Nginx)
-
-El Dockerfile del frontend utiliza Multi-stage building (Node.js para compilar y Nginx para servir). Nginx está configurado como Proxy Inverso.
 Bash
-
 cd front
 docker build -t mi-frontend-img .
+
 docker run -d \
   --name front-container \
   --network red-front-back \
   -p 80:80 \
   mi-frontend-img
 cd ..
+- Acceso y Verificación
+Una vez finalizado el despliegue, puede acceder a los servicios en:
 
-Acceso y Verificación
+- Frontend: http://localhost (Puerto 80)
 
-Una vez ejecutados los comandos anteriores, la aplicación estará disponible en:
+- Backend API: http://localhost:9090/api/v1/users/
 
-    Frontend: http://localhost (Puerto 80)
+Nota sobre el Proxy Inverso: Nginx redirige automáticamente las peticiones desde el puerto 80 hacia el contenedor del backend mediante la directiva proxy_pass.
 
-    Backend API: http://localhost:9090/api/v1/users/
+- Estructura del Repositorio
+La estructura cumple estrictamente con los requerimientos del proyecto:
 
-Verificación de Proxy Inverso
-
-Nginx redirige automáticamente las peticiones desde el puerto 80 hacia el puerto 9090 del contenedor backend mediante la configuración de proxy_pass.
-
-Estructura del Repositorio
-
+Plaintext
 /
-├── back/          # Código fuente Java + Dockerfile
+├── back/          # Código fuente Java + Dockerfile (Multi-stage)
 ├── front/         # Código fuente React + Dockerfile + nginx.conf
-└── README.md      # Guía de despliegue
+└── README.md      # Guía de despliegue y documentación
+© 2026 - Proyecto de Formación ADSO

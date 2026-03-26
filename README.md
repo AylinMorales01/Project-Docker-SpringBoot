@@ -43,7 +43,7 @@ docker run -d \
   -e POSTGRES_DB=pollos_adso \
   -v vol-db-data:/var/lib/postgresql/data \
   postgres:15-alpine
-  
+
 ### Construcción y Ejecución del Backend
 Se accede a la carpeta del backend para construir la imagen utilizando Multi-stage build y se ejecuta en la red de la base de datos:
 
@@ -83,9 +83,7 @@ Backend API: http://localhost:9090/api/v1/users/
 Nota técnica: Nginx actúa como Proxy Inverso redirigiendo automáticamente las peticiones desde el puerto 80 hacia el puerto 9090 del contenedor backend.
 
 Estructura del Repositorio
-El repositorio cumple con la estructura obligatoria de carpetas:
 
-Plaintext
 /
 ├── back/          # Código fuente Java + Dockerfile (Multi-stage)
 ├── front/         # Código fuente React + Dockerfile + nginx.conf

@@ -1,0 +1,10 @@
+/* Ubicación: src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Añade esto para probar que carga */
+body {
+  background-color: #f3f4f6;
+  font-family: sans-serif;
+}

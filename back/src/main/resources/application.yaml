@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: autenticacion
+
+  datasource:
+    url: jdbc:postgresql://db-container:5432/pollos_adso
+    username: aylin
+    password: root
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+  port: 9090
+  servlet:
+    context-path: /api/v1/users
+
+# Configuración de seguridad
+security:
+  jwt:
+    secret-key: Mq2wuP/MNKN+PhPHAKHWUxDypDnhtckGyow7Dynrudg= # Genera con openssl rand -base64 32
+    token-expiration: 600000 # 10 minutos en milisegundos

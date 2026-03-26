@@ -1,12 +1,8 @@
-docker network create red-front-back
-docker network create red-back-bd
-docker volume create vol-db-data
-
-Despliegue de Aplicación Web con Contenedores (Proyecto Kiora)
+# Despliegue de Aplicación Web con Contenedores (Proyecto Kiora)
 
 Este proyecto consiste en el despliegue manual de una aplicación full-stack (Frontend, Backend y Base de Datos) utilizando Docker. Se aplican conceptos de redes aisladas, persistencia de datos y construcción eficiente de imágenes mediante Multi-stage builds.
 
-Tecnologías Utilizadas
+# Tecnologías Utilizadas
 
     Frontend: React (Vite) / Servido con Nginx (Proxy Inverso).
 
@@ -16,7 +12,7 @@ Tecnologías Utilizadas
 
     Infraestructura: Docker (Comandos manuales, sin orquestadores).
 
-Instrucciones de Despliegue Paso a Paso
+# Instrucciones de Despliegue Paso a Paso
 
 Siga estos comandos en el orden indicado para levantar la solución completa desde cero.
 1. Creación de Redes Aisladas

@@ -84,7 +84,8 @@ docker run -d \
 docker network connect red-front-back back-container
 cd ..
 ```
-Construcción y Ejecución del Frontend
+### Construcción y Ejecución del Frontend
+
 Se construye el frontend, el cual incluye la configuración de Nginx como Proxy Inverso para redirigir las peticiones al API:
 ```
 cd front

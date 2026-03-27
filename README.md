@@ -44,7 +44,7 @@ docker run -d \
   -v vol-db-data:/var/lib/postgresql/data \
   postgres:15-alpine
 
-### Construcción y Ejecución del Backend
+ Construcción y Ejecución del Backend
 Se accede a la carpeta del backend para construir la imagen utilizando Multi-stage build y se ejecuta en la red de la base de datos:
 
 Bash

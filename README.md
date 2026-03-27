@@ -59,10 +59,10 @@ docker run -d \
 ```
 ### Construcción y Ejecución del Backend
 Se accede a la carpeta del backend para construir la imagen utilizando Multi-stage build y se ejecuta en la red de la base de datos:
-
+```
 cd back
 docker build -t mi-backend-img .
-
+```
 - Windows
 ```
 docker run -d ^

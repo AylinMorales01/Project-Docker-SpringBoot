@@ -118,10 +118,10 @@ Una vez finalizado el despliegue, la aplicación estará disponible en las sigui
 Nota técnica: Nginx actúa como Proxy Inverso redirigiendo automáticamente las peticiones desde el puerto 80 hacia el puerto 9090 del contenedor backend.
 
 ### Estructura del Repositorio
-
+```
 /
 ├── back/          # Código fuente Java + Dockerfile (Multi-stage)
 ├── front/         # Código fuente React + Dockerfile + nginx.conf
 └── README.md      # Guía de despliegue y documentación técnica
-
+```
 © 2026 - Proyecto de Formación ADSO

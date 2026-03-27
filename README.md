@@ -24,16 +24,19 @@ Siga estos comandos en el orden exacto para levantar la solución completa desde
 Primero, se deben crear las redes aisladas para segmentar el tráfico y el volumen para la persistencia de los datos:
 
 - Creación de redes para segmentar el tráfico
+
 docker network create red-front-back
 docker network create red-back-bd
 
 - Creación del volumen para la base de datos
+
 docker volume create vol-db-data
 
 ### Despliegue de la Base de Datos (PostgreSQL)
 Se lanza el motor de base de datos dentro de su red protegida y se asocia el volumen de datos:
 
 - Windows
+
 docker run -d ^
   --name db-container ^
   --network red-back-bd ^
@@ -44,6 +47,7 @@ docker run -d ^
   postgres:15-alpine
 
 - Linux
+
 docker run -d \
   --name db-container \
   --network red-back-bd \
@@ -60,6 +64,7 @@ cd back
 docker build -t mi-backend-img .
 
 - Windows
+
 docker run -d ^
   --name back-container ^
   --network red-back-bd ^
@@ -67,6 +72,7 @@ docker run -d ^
   mi-backend-img
 
 - Linux
+
 docker run -d \
   --name back-container \
   --network red-back-bd \
@@ -86,6 +92,7 @@ cd front
 docker build -t mi-frontend-img .
 
 - Windows
+
 docker run -d ^
   --name front-container ^
   --network red-front-back ^
@@ -93,6 +100,7 @@ docker run -d ^
   mi-frontend-img
 
 - Linux
+
 docker run -d \
   --name front-container \
   --network red-front-back \

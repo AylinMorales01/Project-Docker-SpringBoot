@@ -79,7 +79,7 @@ docker run -d \
   -p 9090:9090 \
   mi-backend-img
 ```
-# Conexión manual a la segunda red para permitir comunicación con el frontend
+### Conexión manual a la segunda red para permitir comunicación con el frontend
 ```
 docker network connect red-front-back back-container
 cd ..
